@@ -1,4 +1,4 @@
-package com.popularmovies.src.models;
+package com.popularmovies.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;

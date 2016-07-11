@@ -1,10 +1,10 @@
-package com.popularmovies.src.activities;
+package com.popularmovies.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.popularmovies.R;
-import com.popularmovies.src.fragments.MoviesFragment;
+import com.popularmovies.fragments.MoviesFragment;
 
 public class MainActivity extends AppCompatActivity {
 

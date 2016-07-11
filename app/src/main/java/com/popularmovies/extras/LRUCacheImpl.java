@@ -1,4 +1,4 @@
-package com.popularmovies.src.extras;
+package com.popularmovies.extras;
 
 import android.graphics.Bitmap;
 

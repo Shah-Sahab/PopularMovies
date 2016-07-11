@@ -1,4 +1,4 @@
-package com.popularmovies.src.activities;
+package com.popularmovies.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

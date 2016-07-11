@@ -1,4 +1,4 @@
-package com.popularmovies.src.fragments;
+package com.popularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import com.popularmovies.R;
-import com.popularmovies.src.activities.DetailActivity;
-import com.popularmovies.src.adapters.MoviesAdapter;
-import com.popularmovies.src.models.Movie;
+import com.popularmovies.activities.DetailActivity;
+import com.popularmovies.adapters.MoviesAdapter;
+import com.popularmovies.models.Movie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

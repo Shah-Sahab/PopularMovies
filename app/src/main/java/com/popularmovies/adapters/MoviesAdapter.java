@@ -1,4 +1,4 @@
-package com.popularmovies.src.adapters;
+package com.popularmovies.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.popularmovies.R;
-import com.popularmovies.src.extras.LRUCacheImpl;
-import com.popularmovies.src.extras.Util;
-import com.popularmovies.src.models.Movie;
+import com.popularmovies.extras.LRUCacheImpl;
+import com.popularmovies.extras.Util;
+import com.popularmovies.models.Movie;
 import java.util.ArrayList;
 import java.util.Random;
 

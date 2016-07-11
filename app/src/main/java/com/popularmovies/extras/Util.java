@@ -1,4 +1,4 @@
-package com.popularmovies.src.extras;
+package com.popularmovies.extras;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.popularmovies.src.models.Movie;
+import com.popularmovies.models.Movie;
 import java.io.IOException;
 import java.io.InputStream;
 
