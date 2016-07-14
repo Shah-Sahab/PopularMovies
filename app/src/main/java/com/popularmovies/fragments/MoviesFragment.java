@@ -92,7 +92,7 @@ public class MoviesFragment extends Fragment {
                         .appendPath("3")
                         .appendPath("discover")
                         .appendPath("movie")
-                        .appendQueryParameter("api_key", "1e323398975f6d6ba104a6becce02c45")
+                        .appendQueryParameter("api_key", "YourApiKey")
                         .appendQueryParameter("sort_by", "popularity.desc");
 
         return builder.build().toString();
