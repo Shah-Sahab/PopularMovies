@@ -58,6 +58,7 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_REFERRER, moviesAdapter.getItem(i));
                 startActivity(intent);
             }
         });
@@ -91,7 +92,7 @@ public class MoviesFragment extends Fragment {
                         .appendPath("3")
                         .appendPath("discover")
                         .appendPath("movie")
-                        .appendQueryParameter("api_key", "YourApiKey")
+                        .appendQueryParameter("api_key", "1e323398975f6d6ba104a6becce02c45")
                         .appendQueryParameter("sort_by", "popularity.desc");
 
         return builder.build().toString();

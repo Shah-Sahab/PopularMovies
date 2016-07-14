@@ -1,5 +1,8 @@
 package com.popularmovies.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +11,7 @@ import java.util.Date;
 /**
  * Created by Psych on 7/9/16.
  */
-public class Movie {
+public class Movie implements Parcelable {
 
     public static final String M_POSTER_PATH    = "poster_path";
     public static final String M_ORIGINAL_TITLE = "original_title";
@@ -25,7 +28,7 @@ public class Movie {
     private String plotSynopsis;
     private String userRating;
 
-    private Date releaseDate;
+    private String releaseDate;
 
     /**
      * No Args-Constructor
@@ -46,12 +49,56 @@ public class Movie {
             averageVote = movieJson.getString(M_VOTE_AVG);
             plotSynopsis = movieJson.getString(M_SYNOPSIS);
             userRating = movieJson.getString(M_POPULARITY);
-//                releaseDate = (Date) movie.get(M_RELEASE_DATE);
+            releaseDate = movieJson.getString(M_RELEASE_DATE);
 
             imageUrl = imageUrl.replace("/", "").trim();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    /*
+     * -------------------------------------------------------------------------------------------
+     * Parcelable Implementation
+     */
+
+    protected Movie(Parcel in) {
+        id              = in.readInt();
+        title           = in.readString();
+        imageUrl        = in.readString();
+        averageVote     = in.readString();
+        plotSynopsis    = in.readString();
+        userRating      = in.readString();
+        releaseDate     = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(imageUrl);
+        parcel.writeString(averageVote);
+        parcel.writeString(plotSynopsis);
+        parcel.writeString(userRating);
+        parcel.writeString(releaseDate);
 
     }
 
@@ -92,11 +139,11 @@ public class Movie {
         this.userRating = userRating;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

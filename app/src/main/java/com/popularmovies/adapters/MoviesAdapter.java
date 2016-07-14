@@ -2,6 +2,8 @@ package com.popularmovies.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,6 @@ import com.popularmovies.extras.LRUCacheImpl;
 import com.popularmovies.extras.Util;
 import com.popularmovies.models.Movie;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Psych on 7/9/16.
@@ -23,11 +24,9 @@ import java.util.Random;
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
     private static final String LOG_TAG = MoviesAdapter.class.getName();
-    Random random;
 
     public MoviesAdapter(Context context, ArrayList<Movie> movieArrayList) {
         super(context, 0, movieArrayList);
-        random = new Random();
     }
 
     @Override
@@ -40,7 +39,6 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.movieNameTextView.setText(getItem(position).getTitle());
-        viewHolder.movieInfoLayout.setBackgroundColor(Color.argb(200, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         convertView.setTag(viewHolder);
 
 
@@ -51,14 +49,34 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             Util.fetchBitmap(getItem(position), viewHolder.posterImageView);
         }
 
+        setTitleBackgroundColor(viewHolder);
+
         return convertView;
+    }
+
+    private void setTitleBackgroundColor(final ViewHolder viewHolder) {
+        Palette.from(((BitmapDrawable)viewHolder.posterImageView.getDrawable()).getBitmap()).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                int bgColor = palette.getMutedColor(getContext().getResources().getColor(android.R.color.black));
+                int tanslucentBgColor = adjustAlpha(bgColor, 0.5f);
+                viewHolder.movieInfoLayout.setBackgroundColor(tanslucentBgColor);
+            }
+        });
+    }
+
+    public int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 
     public class ViewHolder {
 
         ImageView posterImageView;
         TextView movieNameTextView;
-        //        RatingBar movieRatingRatingBar;
         RelativeLayout movieInfoLayout;
 
         public ViewHolder(View itemView) {
