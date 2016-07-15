@@ -77,7 +77,7 @@ public class MoviesFragment extends Fragment {
         if (Util.isOnline(getContext())) {
             updateMovies();
         } else {
-            Toast.makeText(getContext(), "Please turn on an Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.internet_connection), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -85,7 +85,7 @@ public class MoviesFragment extends Fragment {
      * Calls an AsyncTask to fetch the movies
      */
     private void updateMovies() {
-        progressDialog = ProgressDialog.show(getContext(), "Please wait...", "Loading Popular Movies");
+        progressDialog = ProgressDialog.show(getContext(), getString(R.string.please_wait), getString(R.string.loading_movies));
         FetchPopularMovies fetchPopularMovies = new FetchPopularMovies();
         fetchPopularMovies.execute();
     }
@@ -108,8 +108,7 @@ public class MoviesFragment extends Fragment {
                         .appendPath("3")
                         .appendPath("movie")
                         .appendPath(sortBy)
-                        .appendQueryParameter("api_key", "YourApiKey");
-
+                        .appendQueryParameter("api_key", getString(R.string.api_key));
 
         return builder.build().toString();
     }
@@ -158,19 +157,18 @@ public class MoviesFragment extends Fragment {
                     try {
                         bufferedReader.close();
                     } catch (final IOException e) {
-                        Log.e("MoviesFragment", "Error closing stream", e);
+                        Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
             }
 
-            Log.d(LOG_TAG, popularMoviesJson);
+//            Log.d(LOG_TAG, popularMoviesJson);
             return parseMoviesJson(popularMoviesJson);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Movie> movies) {
             super.onPostExecute(movies);
-            Log.v(LOG_TAG, "onPostExecute called");
 
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();

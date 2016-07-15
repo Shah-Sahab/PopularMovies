@@ -7,6 +7,11 @@
     <string name="pref_sort_title">Sort by</string>
     <string name="pref_sort_default_value">popular</string>
     <string name="pref_sort_key" translatable="false">sort</string>
+    <string name="internet_connection">\"Please turn on an Internet Connection\"</string>
+    <string name="please_wait">\"Please wait...\"</string>
+    <string name="loading_movies">\"Loading Popular Movies\"</string>
+
+    <string name="api_key" translatable="false">YouApiKey</string>
 
     <string-array name="pref_sort_list_entries">
         <item>Popular Movies</item>
