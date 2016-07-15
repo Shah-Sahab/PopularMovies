@@ -59,8 +59,8 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             @Override
             public void onGenerated(Palette palette) {
                 int bgColor = palette.getMutedColor(getContext().getResources().getColor(android.R.color.black));
-                int tanslucentBgColor = adjustAlpha(bgColor, 0.5f);
-                viewHolder.movieInfoLayout.setBackgroundColor(tanslucentBgColor);
+                int translucentBgColor = adjustAlpha(bgColor, 0.5f);
+                viewHolder.movieInfoLayout.setBackgroundColor(translucentBgColor);
             }
         });
     }
