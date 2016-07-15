@@ -18,7 +18,6 @@ import com.popularmovies.models.Movie;
 public class DetailFragment extends Fragment {
 
     public DetailFragment() {
-        // Required empty public constructor
         setHasOptionsMenu(true);
     }
 
@@ -48,7 +47,7 @@ public class DetailFragment extends Fragment {
         ((TextView)rootView.findViewById(R.id.title_text)).setText(movie.getTitle());
         ((TextView)rootView.findViewById(R.id.overview_text)).setText(movie.getPlotSynopsis());
         ((TextView)rootView.findViewById(R.id.releease_date_text)).setText(movie.getReleaseDate());
-        ((TextView)rootView.findViewById(R.id.rating_text)).setText(movie.getUserRating());
+//        ((TextView)rootView.findViewById(R.id.rating_text)).setText(movie.getUserRating());
 
         return rootView;
     }

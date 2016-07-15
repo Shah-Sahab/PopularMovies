@@ -1,7 +1,10 @@
 package com.popularmovies.extras;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -97,6 +100,13 @@ public class Util {
                         .appendPath("w185")
                         .appendPath(posterRelativePath).build();
         return builder.toString();
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 

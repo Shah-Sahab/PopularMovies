@@ -2,9 +2,11 @@ package com.popularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import com.popularmovies.R;
 import com.popularmovies.activities.DetailActivity;
 import com.popularmovies.adapters.MoviesAdapter;
+import com.popularmovies.extras.Util;
 import com.popularmovies.models.Movie;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,9 +74,16 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        updateMovies();
+        if (Util.isOnline(getContext())) {
+            updateMovies();
+        } else {
+            Toast.makeText(getContext(), "Please turn on an Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /**
+     * Calls an AsyncTask to fetch the movies
+     */
     private void updateMovies() {
         progressDialog = ProgressDialog.show(getContext(), "Please wait...", "Loading Popular Movies");
         FetchPopularMovies fetchPopularMovies = new FetchPopularMovies();
@@ -87,13 +99,17 @@ public class MoviesFragment extends Fragment {
      */
     private String getPopularMoviesUrl() {
         Uri.Builder builder = new Uri.Builder();
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String sortBy = preferences.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_default_value));
+
         builder.scheme("http")
                         .authority("api.themoviedb.org")
                         .appendPath("3")
-                        .appendPath("discover")
                         .appendPath("movie")
-                        .appendQueryParameter("api_key", "1e323398975f6d6ba104a6becce02c45")
-                        .appendQueryParameter("sort_by", "popularity.desc");
+                        .appendPath(sortBy)
+                        .appendQueryParameter("api_key", "YourApiKey");
+
 
         return builder.build().toString();
     }

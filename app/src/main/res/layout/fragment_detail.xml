@@ -4,12 +4,12 @@
              android:layout_height="match_parent"
              tools:context="com.popularmovies.fragments.DetailFragment">
 
-
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="130dp"
+        android:layout_height="180dp"
         android:id="@+id/poster_image"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
@@ -18,12 +18,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Synopsis:"
+        android:text="Overview:"
         android:id="@+id/synopsis_heading"
         android:layout_margin="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_below="@+id/poster_image"
+        android:layout_alignLeft="@+id/poster_image"
+        android:layout_alignStart="@+id/poster_image"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,15 +60,15 @@
         android:layout_alignLeft="@+id/title_text"
         android:layout_alignStart="@+id/title_text"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/rating_text"
-        android:layout_below="@+id/releease_date_text"
-        android:layout_alignLeft="@+id/releease_date_text"
-        android:layout_alignStart="@+id/releease_date_text"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+        <!--android:text="Small Text"-->
+        <!--android:id="@+id/rating_text"-->
+        <!--android:layout_below="@+id/releease_date_text"-->
+        <!--android:layout_alignLeft="@+id/releease_date_text"-->
+        <!--android:layout_alignStart="@+id/releease_date_text"/>-->
 
 
 </RelativeLayout>
