@@ -1,74 +1,85 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.popularmovies.fragments.DetailFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.popularmovies.fragments.DetailFragment">
 
     <ImageView
+        android:id="@+id/poster_image"
         android:layout_width="130dp"
         android:layout_height="180dp"
-        android:id="@+id/poster_image"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
 
     <TextView
+        android:id="@+id/synopsis_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Overview:"
-        android:id="@+id/synopsis_heading"
-        android:layout_margin="5dp"
-        android:layout_below="@+id/poster_image"
         android:layout_alignLeft="@+id/poster_image"
         android:layout_alignStart="@+id/poster_image"
+        android:layout_below="@+id/poster_image"
+        android:layout_margin="10dp"
+        android:text="Overview:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
 
         />
 
     <TextView
+        android:id="@+id/overview_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/overview_text"
-        android:layout_below="@+id/synopsis_heading"
         android:layout_alignLeft="@+id/synopsis_heading"
-        android:layout_alignStart="@+id/synopsis_heading"/>
+        android:layout_alignStart="@+id/synopsis_heading"
+        android:layout_below="@+id/synopsis_heading"
+        android:layout_marginBottom="10dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
+        android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/title_text"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/poster_image"
-        android:layout_toEndOf="@+id/poster_image"
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/poster_image"
+        android:layout_toRightOf="@+id/poster_image"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
+        android:id="@+id/release_date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/releease_date_text"
-        android:layout_below="@+id/title_text"
         android:layout_alignLeft="@+id/title_text"
-        android:layout_alignStart="@+id/title_text"/>
+        android:layout_alignStart="@+id/title_text"
+        android:layout_below="@+id/title_text"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-        <!--android:text="Small Text"-->
-        <!--android:id="@+id/rating_text"-->
-        <!--android:layout_below="@+id/releease_date_text"-->
-        <!--android:layout_alignLeft="@+id/releease_date_text"-->
-        <!--android:layout_alignStart="@+id/releease_date_text"/>-->
+    <TextView
+        android:id="@+id/trailer_heading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overview_text"
+        android:layout_margin="10dp"
+        android:text="Trailers:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/trailer_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/trailer_heading_text"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
 
 
 </RelativeLayout>

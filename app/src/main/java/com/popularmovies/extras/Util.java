@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.popularmovies.R;
 import com.popularmovies.models.Movie;
 import java.io.IOException;
 import java.io.InputStream;
@@ -107,6 +108,27 @@ public class Util {
                         (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+    /**
+     * http://api.themoviedb.org/3/movie/129/videos?api_key=YourApiKey
+     * Will be using "/movie/{id}/videos" instead
+     * Returns the url
+     * @return
+     */
+    public static String getMovieTrailersUrl(Context context, int movieId) {
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("http")
+                        .authority("api.themoviedb.org")
+                        .appendPath("3")
+                        .appendPath("movie")
+                        .appendPath(String.valueOf(movieId))
+                        .appendPath("videos")
+                        .appendQueryParameter("api_key", context.getString(R.string.api_key));
+
+        return builder.build().toString();
     }
 
 
