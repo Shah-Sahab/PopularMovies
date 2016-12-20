@@ -3,8 +3,11 @@ package com.popularmovies.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.popularmovies.R;
+import com.popularmovies.activities.TrailerPlayerActivity;
 import com.popularmovies.adapters.TrailerAdapter;
 import com.popularmovies.extras.DividerItemDecoration;
 import com.popularmovies.extras.LRUCacheImpl;
@@ -39,7 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Trailer>> {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Trailer>>, TrailerAdapter.TrailerClickListener {
 
     Movie movie;
     RecyclerView trailerRecycler;
@@ -84,6 +88,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         trailerRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         trailerAdapter = new TrailerAdapter(getContext(), new ArrayList<Trailer>());
         trailerRecycler.setAdapter(trailerAdapter);
+        trailerAdapter.setTrailerClickListener(this);
     }
 
     @Override
@@ -118,6 +123,20 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onClickOfATrailer(Trailer trailer) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?" + trailer.getYoutubeId()));
+//        startActivity(intent);
+//        FragmentManager fm = getChildFragmentManager();
+//        TrailerDialogFragment fragment = TrailerDialogFragment.getInstance(trailer);
+//        fragment.show(fm, TrailerDialogFragment.TAG);
+
+        Intent intent = new Intent(getActivity(), TrailerPlayerActivity.class);
+        intent.putExtra(TrailerPlayerActivity.KEY, trailer);
+        startActivity(intent);
+
     }
 
     // --------------------------------------------------------------------------------------------

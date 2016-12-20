@@ -35,7 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Psych on 7/9/16.
+ * Created by Syed Ahmed Hussain on 7/9/16.
  */
 public class MoviesFragment extends Fragment {
 
@@ -204,5 +204,11 @@ public class MoviesFragment extends Fragment {
         return movieArrayList;
 
     }
+
+    /*
+     * TODO: Add a broadcast receiver to listen to the internet connection.
+     * Important: That way whenever an internet connection comes up we will be able to receive data from
+     * server.
+     */
 
 }

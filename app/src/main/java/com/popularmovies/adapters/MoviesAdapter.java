@@ -38,12 +38,12 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.movieNameTextView.setText(getItem(position).getTitle());
+        viewHolder.artistNameTextView.setText(getItem(position).getTitle());
         convertView.setTag(viewHolder);
 
 
         if (LRUCacheImpl.getInstance().get(getItem(position).getId()) != null) {
-            Log.d(LOG_TAG, "retrieving from LRU Cache");
+//            Log.d(LOG_TAG, "retrieving from LRU Cache");
             viewHolder.posterImageView.setImageBitmap(LRUCacheImpl.getInstance().get(getItem(position).getId()));
         } else {
             Util.fetchBitmap(getItem(position), viewHolder.posterImageView);
@@ -76,12 +76,12 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
     public class ViewHolder {
 
         ImageView posterImageView;
-        TextView movieNameTextView;
+        TextView artistNameTextView;
         RelativeLayout movieInfoLayout;
 
         public ViewHolder(View itemView) {
             movieInfoLayout = (RelativeLayout) itemView.findViewById(R.id.movie_info_layout);
-            movieNameTextView = (TextView) itemView.findViewById(R.id.text_movie_name);
+            artistNameTextView = (TextView) itemView.findViewById(R.id.text_movie_name);
             posterImageView = (ImageView) itemView.findViewById(R.id.image_poster);
         }
 

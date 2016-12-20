@@ -1,5 +1,8 @@
 package com.popularmovies.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Psych on 11/25/16.
  *
@@ -14,7 +17,7 @@ package com.popularmovies.models;
  * size: 720,
  * type: "Trailer"
  */
-public class Trailer {
+public class Trailer implements Parcelable {
 
     public static final String _ID = "id";
     public static final String KEY = "key";
@@ -48,6 +51,29 @@ public class Trailer {
         this.trailerName = trailerName;
         this.type = type;
     }
+
+    protected Trailer(Parcel in) {
+        size = in.readInt();
+        key = in.readString();
+        site = in.readString();
+        language = in.readString();
+        youtubeId = in.readString();
+        type = in.readString();
+        countryCode = in.readString();
+        trailerName = in.readString();
+    }
+
+    public static final Creator<Trailer> CREATOR = new Creator<Trailer>() {
+        @Override
+        public Trailer createFromParcel(Parcel in) {
+            return new Trailer(in);
+        }
+
+        @Override
+        public Trailer[] newArray(int size) {
+            return new Trailer[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -124,5 +150,21 @@ public class Trailer {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(size);
+        parcel.writeString(key);
+        parcel.writeString(site);
+        parcel.writeString(language);
+        parcel.writeString(youtubeId);
+        parcel.writeString(countryCode);
+        parcel.writeString(trailerName);
     }
 }

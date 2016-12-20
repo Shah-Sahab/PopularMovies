@@ -1,6 +1,7 @@
 package com.popularmovies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
 
+    private TrailerClickListener trailerClickListener;
     private ArrayList<Trailer> trailerArrayList;
     private LayoutInflater layoutInflater;
 
@@ -28,12 +30,15 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(layoutInflater.inflate(R.layout.item_trailer_recycler, null));
+        ViewHolder viewHolder = new ViewHolder(layoutInflater.inflate(R.layout.item_trailer_recycler, parent, false));
+        viewHolder.trailerTextView.setOnClickListener(clickListener);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.trailerTextView.setText(trailerArrayList.get(position).getTrailerName());
+        holder.trailerTextView.setTag(trailerArrayList.get(position));
     }
 
     @Override
@@ -53,7 +58,24 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
             super(itemView);
             trailerTextView = (TextView) itemView.findViewById(R.id.trailer_text);
         }
+    }
 
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (trailerClickListener == null) return;
+
+            // Send the trailer information
+            trailerClickListener.onClickOfATrailer((Trailer) v.getTag());
+        }
+    };
+
+    public void setTrailerClickListener(TrailerClickListener trailerClickListener) {
+        this.trailerClickListener = trailerClickListener;
+    }
+
+    public interface TrailerClickListener {
+        void onClickOfATrailer(Trailer trailer);
     }
 
 
