@@ -11,8 +11,8 @@
     <string name="please_wait">\"Please wait...\"</string>
     <string name="loading_movies">\"Loading Popular Movies\"</string>
 
-    <string name="api_key" translatable="false">1e323398975f6d6ba104a6becce02c45</string>
-    <string name="youtube_api_key" translatable="false">AIzaSyB76jza4f0OsseakTA4P0thoLCEmsMr7is</string>
+    <string name="api_key" translatable="false">your_api_key</string>
+    <string name="youtube_api_key" translatable="false">your_api_key</string>
     <string name="player_error">Error initializing YouTube player</string>
 
     <string-array name="pref_sort_list_entries">
