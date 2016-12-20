@@ -1,5 +1,7 @@
 package com.popularmovies.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,8 +86,9 @@ public class TotalReviews {
                         '}';
     }
 
-    public static TotalReviews parseJSON(JSONObject jsonObject) {
+    public static TotalReviews parseJSON(String json) {
         try {
+            JSONObject jsonObject = new JSONObject(json);
             TotalReviews totalReviews = new TotalReviews();
             totalReviews.setId(jsonObject.getInt(JSON_ID));
             totalReviews.setPageNumber(jsonObject.getInt(JSON_PAGE));
@@ -95,9 +98,11 @@ public class TotalReviews {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     reviewArrayList.add(Review.parseJSON(jsonArray.getJSONObject(i)));
                 }
+                totalReviews.setResultsArrayList(reviewArrayList);
             }
             totalReviews.setTotalPages(jsonObject.getInt(JSON_TOTAL_PAGES));
             totalReviews.setTotalResults(jsonObject.getInt(JSON_TOTAL_RESULTS));
+            Log.e("TotalReviews", totalReviews.toString());
             return totalReviews;
         } catch (JSONException e) {
             e.printStackTrace();

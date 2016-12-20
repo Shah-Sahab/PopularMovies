@@ -131,6 +131,26 @@ public class Util {
         return builder.build().toString();
     }
 
+    /**
+     * http://api.themoviedb.org/3/movie/129/reviews?api_key=YourApiKey
+     * Will be using "/movie/{id}/reviews" instead
+     * Returns the url
+     * @return
+     */
+    public static String getMovieReviewsUrl(Context context, int movieId) {
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("http")
+                        .authority("api.themoviedb.org")
+                        .appendPath("3")
+                        .appendPath("movie")
+                        .appendPath(String.valueOf(movieId))
+                        .appendPath("reviews")
+                        .appendQueryParameter("api_key", context.getString(R.string.api_key));
+
+        return builder.build().toString();
+    }
+
 
 
 }
