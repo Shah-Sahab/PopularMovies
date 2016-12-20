@@ -127,11 +127,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onClickOfATrailer(Trailer trailer) {
-//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?" + trailer.getYoutubeId()));
+
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?" + trailer.getKey()));
 //        startActivity(intent);
-//        FragmentManager fm = getChildFragmentManager();
-//        TrailerDialogFragment fragment = TrailerDialogFragment.getInstance(trailer);
-//        fragment.show(fm, TrailerDialogFragment.TAG);
 
         Intent intent = new Intent(getActivity(), TrailerPlayerActivity.class);
         intent.putExtra(TrailerPlayerActivity.KEY, trailer);

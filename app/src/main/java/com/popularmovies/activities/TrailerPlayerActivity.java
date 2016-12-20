@@ -18,7 +18,7 @@ public class TrailerPlayerActivity extends YouTubeBaseActivity implements YouTub
 
     public static final String KEY = "Trailer";
     private static final int RECOVERY_REQUEST = 1;
-    public static final String TAG = TrailerPlayerActivity.class.getName();
+    public static final String LOG_TAG = TrailerPlayerActivity.class.getName();
 
     YouTubePlayerView youTubePlayerView;
     Trailer trailer;
@@ -37,7 +37,7 @@ public class TrailerPlayerActivity extends YouTubeBaseActivity implements YouTub
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (!wasRestored) {
-            youTubePlayer.cueVideo(trailer.getKey());
+            youTubePlayer.loadVideo(trailer.getKey());
         }
     }
 
