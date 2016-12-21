@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/list"
-    android:name="com.popularmovies.fragments.ItemReviewFragment"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.popularmovies.fragments.ReviewsFragment"
-    tools:listitem="@layout/item_review_recycler"/>
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/warning_text"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:text="@string/reviews_not_available"
+        android:textColor="@android:color/holo_red_light"
+        android:gravity="center"
+        android:visibility="gone"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.popularmovies.fragments.ItemReviewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.popularmovies.fragments.ReviewsFragment"
+        tools:listitem="@layout/item_review_recycler"/>
+
+</LinearLayout>

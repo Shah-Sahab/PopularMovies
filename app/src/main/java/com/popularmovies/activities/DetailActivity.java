@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.popularmovies.R;
 import com.popularmovies.fragments.DetailFragment;
 import com.popularmovies.fragments.ReviewsFragment;
@@ -23,12 +24,13 @@ public class DetailActivity extends AppCompatActivity implements ReviewsFragment
         setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                            .add(R.id.container , new DetailFragment())
-//                            .commit();
             CustomFragmentPagerAdapter customFragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
             viewPager = (ViewPager) findViewById(R.id.pager);
             viewPager.setAdapter(customFragmentPagerAdapter);
+
+            // Bind the tabs to the ViewPager
+            PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+            tabs.setViewPager(viewPager);
         }
 
         setupActionBar();
@@ -53,6 +55,10 @@ public class DetailActivity extends AppCompatActivity implements ReviewsFragment
 
         Fragment[] fragmentArray;
 
+        String[] pageTitleArray = new String[] {
+            "Overview", "Reviews"
+        };
+
         public CustomFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
             fragmentArray = new Fragment[] {
@@ -68,6 +74,11 @@ public class DetailActivity extends AppCompatActivity implements ReviewsFragment
         @Override
         public int getCount() {
             return fragmentArray.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pageTitleArray[position];
         }
     }
 }

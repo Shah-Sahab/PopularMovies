@@ -40,8 +40,8 @@ import java.util.ArrayList;
 public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<TotalReviews> {
 
     private static final String ARG_MOVIE = "movie";
-    ReviewRecyclerViewAdapter reviewRecyclerViewAdapter;
-    Movie movie;
+    private ReviewRecyclerViewAdapter reviewRecyclerViewAdapter;
+    private Movie movie;
     private OnListFragmentInteractionListener mListener;
     private ProgressDialog progressDialog;
 
@@ -76,23 +76,12 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-            reviewRecyclerViewAdapter = new ReviewRecyclerViewAdapter(new ArrayList<Review>(), mListener);
-            recyclerView.setAdapter(reviewRecyclerViewAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
-        }
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        reviewRecyclerViewAdapter = new ReviewRecyclerViewAdapter(new ArrayList<Review>(), mListener);
+        recyclerView.setAdapter(reviewRecyclerViewAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -108,11 +97,9 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onStart() {
         super.onStart();
-
         progressDialog = ProgressDialog.show(getContext(), null, "Please Wait...");
         // For some reason each time I am loading a loader, I have to force load it!!! Ba'a'a'a'd!!!!
         getLoaderManager().initLoader(FetchMovieReviewsLoader.ID, null, this).forceLoad();
-
     }
 
     @Override
@@ -129,9 +116,12 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<TotalReviews> loader, TotalReviews data) {
         if (data != null && data.getResultsArrayList() != null) {
+            getView().findViewById(R.id.warning_text).setVisibility(View.GONE);
             reviewRecyclerViewAdapter.getmValues().clear();
             reviewRecyclerViewAdapter.getmValues().addAll(data.getResultsArrayList());
             reviewRecyclerViewAdapter.notifyDataSetChanged();
+        } else {
+            getView().findViewById(R.id.warning_text).setVisibility(View.VISIBLE);
         }
         dismissProgressDialog();
     }
