@@ -177,5 +177,11 @@ public class Util {
         return builder.build().toString();
     }
 
+    public static String getMovieType(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String movieType = preferences.getString(context.getString(R.string.pref_sort_key), context.getString(R.string.pref_sort_default_value));
+        return movieType;
+    }
+
 
 }

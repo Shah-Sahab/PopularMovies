@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -41,6 +42,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Syed Ahmed Hussain on 7/9/16.
@@ -164,7 +167,10 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             ArrayList<Movie> movieArrayList = new ArrayList<>();
             movieArrayList.addAll(fetchMoviesFromServer());
 
-            Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String sortBy = preferences.getString(getContext().getString(R.string.pref_sort_key), getContext().getString(R.string.pref_sort_default_value));
+
+            Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, MovieContract.MovieEntry.COLUMN_TYPE + " == ?", new String[] { sortBy }, null);
             Log.e(LOG_TAG, "Cursor Count: " + cursor.getCount());
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
@@ -177,7 +183,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     movie.setImageUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_PATH)));
                     movie.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
                     movie.setUserRating(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY)));
-                    movieArrayList.remove(movie);
+                    movie.setMovieType(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_TYPE)));
+
+                    if (movieArrayList.contains(movie)) {
+                        movieArrayList.remove(movie);
+                    }
                     movieArrayList.add(movie);
 
                     Log.e(LOG_TAG, "Cursor Movie Fav : " + movie.isFavorite());
@@ -248,6 +258,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                 JSONArray moviesArray = moviesJson.getJSONArray("results");
                 for (int i=0; i<moviesArray.length(); i++) {
                     Movie movie = new Movie(moviesArray.getJSONObject(i));
+                    movie.setMovieType(Util.getMovieType(getContext()));
                     movieArrayList.add(movie);
                 }
 

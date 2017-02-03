@@ -29,6 +29,7 @@ public class Movie implements Parcelable {
     private String plotSynopsis;
     private String userRating;
     private String releaseDate;
+    private String movieType;
 
     private boolean isFavorite;
 
@@ -73,7 +74,8 @@ public class Movie implements Parcelable {
         plotSynopsis    = in.readString();
         userRating      = in.readString();
         releaseDate     = in.readString();
-        isFavorite = in.readByte() != 0; // isFavorite == true if byte != 0
+        movieType       = in.readString();
+        isFavorite      = in.readByte() != 0; // isFavorite == true if byte != 0
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -102,6 +104,7 @@ public class Movie implements Parcelable {
         parcel.writeString(plotSynopsis);
         parcel.writeString(userRating);
         parcel.writeString(releaseDate);
+        parcel.writeString(movieType);
         parcel.writeByte((byte) (isFavorite ? 1 : 0)); // if isFavorite == true, byte == 1
 
     }
@@ -121,6 +124,7 @@ public class Movie implements Parcelable {
         contentValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY, userRating);
         contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
         contentValues.put(MovieContract.MovieEntry.COLUMN_FAVOURITE, isFavorite);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_TYPE, movieType);
 
         return contentValues;
 
@@ -193,6 +197,14 @@ public class Movie implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public String getMovieType() {
+        return movieType;
+    }
+
+    public void setMovieType(String movieType) {
+        this.movieType = movieType;
     }
 
     @Override

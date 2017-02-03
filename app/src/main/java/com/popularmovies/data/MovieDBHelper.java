@@ -36,6 +36,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         MovieContract.MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_SYNOPSIS + " TEXT NOT NULL, " +
+                        MovieContract.MovieEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_VOTE_AVG + " REAL NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_RELEASE_DATE + " INTEGER NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_FAVOURITE + " INTEGER NOT NULL DEFAULT 0 "
