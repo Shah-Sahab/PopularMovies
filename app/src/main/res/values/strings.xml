@@ -24,4 +24,10 @@
         <item>top_rated</item>
     </string-array>
 
+    <!-- Sync Adapter -->
+    <string name="sync_account_type">popularmovies.com</string>
+    <string name="content_authority">com.popularmovies</string>
+
+    <string name="pref_last_notification">last_notification</string>
+
 </resources>

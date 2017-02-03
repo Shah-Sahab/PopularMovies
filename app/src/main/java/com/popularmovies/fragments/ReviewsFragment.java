@@ -20,7 +20,7 @@ import com.popularmovies.extras.DividerItemDecoration;
 import com.popularmovies.extras.Util;
 import com.popularmovies.models.Movie;
 import com.popularmovies.models.Review;
-import com.popularmovies.models.TotalReviews;
+import com.popularmovies.models.ReviewPage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<TotalReviews> {
+public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<ReviewPage> {
 
     private static final String ARG_MOVIE = "movie";
     private ReviewRecyclerViewAdapter reviewRecyclerViewAdapter;
@@ -109,12 +109,12 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public Loader<TotalReviews> onCreateLoader(int id, Bundle args) {
+    public Loader<ReviewPage> onCreateLoader(int id, Bundle args) {
         return new FetchMovieReviewsLoader(getContext(), movie.getId());
     }
 
     @Override
-    public void onLoadFinished(Loader<TotalReviews> loader, TotalReviews data) {
+    public void onLoadFinished(Loader<ReviewPage> loader, ReviewPage data) {
         if (data != null && data.getResultsArrayList() != null) {
             getView().findViewById(R.id.warning_text).setVisibility(View.GONE);
             reviewRecyclerViewAdapter.getmValues().clear();
@@ -127,7 +127,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onLoaderReset(Loader<TotalReviews> loader) {
+    public void onLoaderReset(Loader<ReviewPage> loader) {
 
     }
 
@@ -157,7 +157,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
      * You’ll allow users to view and play trailers ( either in the youtube app or a web browser).
      * "/movie/{id}/videos"
      */
-    public static class FetchMovieReviewsLoader extends AsyncTaskLoader<TotalReviews> {
+    public static class FetchMovieReviewsLoader extends AsyncTaskLoader<ReviewPage> {
 
         public static final int ID = 102;
         public static final String LOG_TAG = FetchMovieReviewsLoader.class.getName();
@@ -170,7 +170,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         @Override
-        public TotalReviews loadInBackground() {
+        public ReviewPage loadInBackground() {
 
             HttpURLConnection urlConnection = null;
             BufferedReader bufferedReader = null;
@@ -213,7 +213,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
                 }
             }
 
-            return TotalReviews.parseJSON(movieReviewJson);
+            return ReviewPage.parseJSON(movieReviewJson);
         }
 
     }

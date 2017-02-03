@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,9 +32,28 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.popularmovies.activities.MainActivity"/>
         </activity>
-        <activity android:name=".activities.TrailerPlayerActivity"
+        <activity
+            android:name=".activities.TrailerPlayerActivity"
             android:theme="@style/Theme.AppCompat.Dialog">
         </activity>
+
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="movie"
+            android:enabled="false"
+            android:exported="false"
+            android:syncable="true">
+        </provider>
+
+        <service
+            android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
     </application>
 
 </manifest>

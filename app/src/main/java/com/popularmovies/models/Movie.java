@@ -1,7 +1,10 @@
 package com.popularmovies.models;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.popularmovies.data.MovieContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,6 +102,25 @@ public class Movie implements Parcelable {
         parcel.writeString(plotSynopsis);
         parcel.writeString(userRating);
         parcel.writeString(releaseDate);
+
+    }
+
+    /**
+     * Returns the content values
+     * @return ContentValues
+     */
+    public ContentValues getContentValues() {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MovieContract.MovieEntry._ID, id);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, title);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, imageUrl);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVG, averageVote);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, plotSynopsis);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY, userRating);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+
+        return contentValues;
 
     }
 

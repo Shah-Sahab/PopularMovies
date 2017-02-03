@@ -1,12 +1,14 @@
 package com.popularmovies.extras;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -151,6 +153,29 @@ public class Util {
         return builder.build().toString();
     }
 
+
+    /**
+     *
+     * http://api.themoviedb.org/3/discover/movie?api_key=YourApiKey&sort_by=popularity.desc
+     *
+     * Returns the url to the server being that we will hit to get the movies
+     * @return
+     */
+    public static String getMovieServerUrl(Context context) {
+        Uri.Builder builder = new Uri.Builder();
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String sortBy = preferences.getString(context.getString(R.string.pref_sort_key), context.getString(R.string.pref_sort_default_value));
+
+        builder.scheme("http")
+                        .authority("api.themoviedb.org")
+                        .appendPath("3")
+                        .appendPath("movie")
+                        .appendPath(sortBy)
+                        .appendQueryParameter("api_key", context.getString(R.string.api_key));
+
+        return builder.build().toString();
+    }
 
 
 }

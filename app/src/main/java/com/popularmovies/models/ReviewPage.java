@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Psych on 12/19/16.
  */
-public class TotalReviews {
+public class ReviewPage {
 
     /*
      * {"id":100,
@@ -77,7 +77,7 @@ public class TotalReviews {
 
     @Override
     public String toString() {
-        return "TotalReviews{" +
+        return "ReviewPage{" +
                         "id=" + id +
                         ", pageNumber=" + pageNumber +
                         ", resultsArrayList=" + resultsArrayList +
@@ -86,24 +86,24 @@ public class TotalReviews {
                         '}';
     }
 
-    public static TotalReviews parseJSON(String json) {
+    public static ReviewPage parseJSON(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
-            TotalReviews totalReviews = new TotalReviews();
-            totalReviews.setId(jsonObject.getInt(JSON_ID));
-            totalReviews.setPageNumber(jsonObject.getInt(JSON_PAGE));
+            ReviewPage reviewPage = new ReviewPage();
+            reviewPage.setId(jsonObject.getInt(JSON_ID));
+            reviewPage.setPageNumber(jsonObject.getInt(JSON_PAGE));
             JSONArray jsonArray = jsonObject.getJSONArray(JSON_RESULTS);
             if (jsonArray.length() > 0) {
                 ArrayList<Review> reviewArrayList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     reviewArrayList.add(Review.parseJSON(jsonArray.getJSONObject(i)));
                 }
-                totalReviews.setResultsArrayList(reviewArrayList);
+                reviewPage.setResultsArrayList(reviewArrayList);
             }
-            totalReviews.setTotalPages(jsonObject.getInt(JSON_TOTAL_PAGES));
-            totalReviews.setTotalResults(jsonObject.getInt(JSON_TOTAL_RESULTS));
-            Log.e("TotalReviews", totalReviews.toString());
-            return totalReviews;
+            reviewPage.setTotalPages(jsonObject.getInt(JSON_TOTAL_PAGES));
+            reviewPage.setTotalResults(jsonObject.getInt(JSON_TOTAL_RESULTS));
+            Log.e("ReviewPage", reviewPage.toString());
+            return reviewPage;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
