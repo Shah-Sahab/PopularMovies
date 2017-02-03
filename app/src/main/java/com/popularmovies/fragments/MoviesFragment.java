@@ -75,7 +75,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra(Intent.EXTRA_REFERRER, moviesAdapter.getItem(i));
-                Log.e(LOG_TAG, "Movie Faav : " + moviesAdapter.getItem(i).isFavorite());
+//                Log.e(LOG_TAG, "Movie Faav : " + moviesAdapter.getItem(i).isFavorite());
 
                 startActivity(intent);
             }
@@ -171,7 +171,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             String sortBy = preferences.getString(getContext().getString(R.string.pref_sort_key), getContext().getString(R.string.pref_sort_default_value));
 
             Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, MovieContract.MovieEntry.COLUMN_TYPE + " == ?", new String[] { sortBy }, null);
-            Log.e(LOG_TAG, "Cursor Count: " + cursor.getCount());
+//            Log.e(LOG_TAG, "Cursor Count: " + cursor.getCount());
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     Movie movie = new Movie();
@@ -190,7 +190,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     }
                     movieArrayList.add(movie);
 
-                    Log.e(LOG_TAG, "Cursor Movie Fav : " + movie.isFavorite());
+//                    Log.e(LOG_TAG, "Cursor Movie Fav : " + movie.isFavorite());
                 }
                 cursor.close();
             }

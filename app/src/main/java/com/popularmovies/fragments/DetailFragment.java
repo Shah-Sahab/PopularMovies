@@ -100,12 +100,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         trailerAdapter.setTrailerClickListener(this);
     }
 
-    public void setFavoriteMovieCheck() {
-        if (movie.isFavorite()) {
-
-        }
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -262,7 +256,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         trailer.setSize(trailerJsonObject.getInt(Trailer.SIZE));
                         trailer.setType(trailerJsonObject.getString(Trailer.TYPE));
                         trailersArrayList.add(trailer);
-                        Log.e(LOG_TAG, trailer.toString());
+//                        Log.e(LOG_TAG, trailer.toString());
                     }
                     return trailersArrayList;
                 }
