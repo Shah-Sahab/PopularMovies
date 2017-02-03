@@ -39,7 +39,7 @@
 
         <provider
             android:name=".data.MovieProvider"
-            android:authorities="movie"
+            android:authorities="com.popularmovies"
             android:enabled="true"
             android:exported="false"
             android:syncable="true">

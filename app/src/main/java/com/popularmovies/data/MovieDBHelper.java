@@ -52,8 +52,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         MovieContract.TrailerEntry.COLUMN_SITE + " TEXT NOT NULL, " +
                         MovieContract.TrailerEntry.COLUMN_SIZE + " REAL NOT NULL, " +
                         MovieContract.TrailerEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
-                        " FOREIGN KEY (" + MovieContract.TrailerEntry.COLUMN_MOVIE_ID + " ) REFERENCES " +
-                        MovieContract.MovieEntry.TABLE_NAME + " (" + MovieContract.MovieEntry._ID + ")";
+                        " FOREIGN KEY (" + MovieContract.TrailerEntry.COLUMN_MOVIE_ID + ") REFERENCES " +
+                        MovieContract.MovieEntry.TABLE_NAME + " (" + MovieContract.MovieEntry._ID + "));";
 
 
 
@@ -63,8 +63,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         MovieContract.ReviewPageEntry.COLUMN_PAGE + " REAL NOT NULL, " +
                         MovieContract.ReviewPageEntry.COLUMN_TOTAL_PAGES + " REAL NOT NULL, " +
                         MovieContract.ReviewPageEntry.COLUMN_TOTAL_RESULTS + " REAL NOT NULL, " +
-                        " FOREIGN KEY (" + MovieContract.ReviewPageEntry.COLUMN_MOVIE_ID + " ) REFERENCES " +
-                        MovieContract.MovieEntry.TABLE_NAME + " (" + MovieContract.MovieEntry._ID + ")";
+                        " FOREIGN KEY (" + MovieContract.ReviewPageEntry.COLUMN_MOVIE_ID + ") REFERENCES " +
+                        MovieContract.MovieEntry.TABLE_NAME + " (" + MovieContract.MovieEntry._ID + "));";
 
 
         final String SQL_CREATE_REVIEW = "CREATE TABLE " + MovieContract.ReviewEntry.TABLE_NAME + " (" +
@@ -72,8 +72,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         MovieContract.ReviewEntry.COLUMN_AUTHOR + " TEXT NOT NULL, " +
                         MovieContract.ReviewEntry.COLUMN_CONTENT + " TEXT NOT NULL, " +
                         MovieContract.ReviewEntry.COLUMN_URL + " TEXT NOT NULL, " +
-                        " FOREIGN KEY (" + MovieContract.ReviewEntry.COLUMN_PAGE_KEY + " ) REFERENCES " +
-                        MovieContract.ReviewPageEntry.TABLE_NAME + " (" + MovieContract.ReviewPageEntry._ID + ")";
+                        " FOREIGN KEY (" + MovieContract.ReviewEntry.COLUMN_PAGE_KEY + ") REFERENCES " +
+                        MovieContract.ReviewPageEntry.TABLE_NAME + " (" + MovieContract.ReviewPageEntry._ID + "));";
 
 
         // Example on Referencing Foreign key and Replace on Conflict
