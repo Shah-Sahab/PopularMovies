@@ -1,14 +1,19 @@
 package com.popularmovies.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +25,11 @@ import android.widget.Toast;
 import com.popularmovies.R;
 import com.popularmovies.activities.DetailActivity;
 import com.popularmovies.adapters.MoviesAdapter;
+import com.popularmovies.data.MovieContract;
 import com.popularmovies.extras.Util;
 import com.popularmovies.models.Movie;
+import com.popularmovies.models.Trailer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +45,7 @@ import java.util.ArrayList;
 /**
  * Created by Syed Ahmed Hussain on 7/9/16.
  */
-public class MoviesFragment extends Fragment {
+public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
     public static final String LOG_TAG = MoviesFragment.class.getName();
 
@@ -64,6 +72,8 @@ public class MoviesFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra(Intent.EXTRA_REFERRER, moviesAdapter.getItem(i));
+                Log.e(LOG_TAG, "Movie Faav : " + moviesAdapter.getItem(i).isFavorite());
+
                 startActivity(intent);
             }
         });
@@ -86,8 +96,8 @@ public class MoviesFragment extends Fragment {
      */
     private void updateMovies() {
         progressDialog = ProgressDialog.show(getContext(), getString(R.string.please_wait), getString(R.string.loading_movies));
-        FetchPopularMovies fetchPopularMovies = new FetchPopularMovies();
-        fetchPopularMovies.execute();
+        // For some reason each time I am loading a loader, I have to force load it!!! Ba'a'a'a'd!!!!
+        getLoaderManager().initLoader(FetchPopularMoviesLoader.ID, null, this).forceLoad();
     }
 
     /**
@@ -113,20 +123,78 @@ public class MoviesFragment extends Fragment {
         return builder.build().toString();
     }
 
-    /**
-     * Gets all the popular movies
-     */
-    public class FetchPopularMovies extends AsyncTask<String, Void, ArrayList<Movie>> {
+    // ------------------------------------------------------------------------------------
+    // Fetch all the movies
+
+    @Override
+    public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
+        return new FetchPopularMoviesLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+
+        if (data == null) {
+            return;
+        }
+
+        moviesAdapter.clear();
+        moviesAdapter.addAll(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<Movie>> loader) { }
+
+    // ------------------------------------------------------------------------------------
+
+    public static class FetchPopularMoviesLoader extends AsyncTaskLoader<ArrayList<Movie>> {
+
+        public static final int ID = 301;
+
+        public FetchPopularMoviesLoader(Context context) {
+            super(context);
+        }
 
         @Override
-        protected ArrayList<Movie> doInBackground(String... strings) {
+        public ArrayList<Movie> loadInBackground() {
+            ArrayList<Movie> movieArrayList = new ArrayList<>();
+            movieArrayList.addAll(fetchMoviesFromServer());
 
+            Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
+            Log.e(LOG_TAG, "Cursor Count: " + cursor.getCount());
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    Movie movie = new Movie();
+                    movie.setId(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry._ID)));
+                    movie.setAverageVote(String.valueOf(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVG))));
+                    movie.setFavorite(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_FAVOURITE)) != 0);
+                    movie.setPlotSynopsis(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_SYNOPSIS)));
+                    movie.setTitle(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
+                    movie.setImageUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_PATH)));
+                    movie.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
+                    movie.setUserRating(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY)));
+                    movieArrayList.remove(movie);
+                    movieArrayList.add(movie);
+
+                    Log.e(LOG_TAG, "Cursor Movie Fav : " + movie.isFavorite());
+                }
+                cursor.close();
+            }
+
+            return movieArrayList;
+        }
+
+        private ArrayList<Movie> fetchMoviesFromServer() {
             HttpURLConnection urlConnection = null;
             BufferedReader bufferedReader = null;
             String popularMoviesJson = null;
 
             try {
-                URL url = new URL(getPopularMoviesUrl());
+                URL url = new URL(Util.getMovieServerUrl(getContext()));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 InputStream inputStream = urlConnection.getInputStream();
@@ -166,44 +234,33 @@ public class MoviesFragment extends Fragment {
             return parseMoviesJson(popularMoviesJson);
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
-            super.onPostExecute(movies);
+        /**
+         * Returns a parsed Arraylist of Movie objects
+         * @param json
+         * @return
+         */
+        private ArrayList<Movie> parseMoviesJson(String json) {
 
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
+            ArrayList<Movie> movieArrayList = new ArrayList<>();
+
+            try {
+                JSONObject moviesJson = new JSONObject(json);
+                JSONArray moviesArray = moviesJson.getJSONArray("results");
+                for (int i=0; i<moviesArray.length(); i++) {
+                    Movie movie = new Movie(moviesArray.getJSONObject(i));
+                    movieArrayList.add(movie);
+                }
+
+            } catch (JSONException e) {
+                Log.e("MoviesFragment", "Error while parsing Movies JSON");
+                e.printStackTrace();
             }
 
-            moviesAdapter.clear();
-            moviesAdapter.addAll(movies);
+            return movieArrayList;
+
         }
     }
 
-    /**
-     * Returns a parsed Arraylist of Movie objects
-     * @param json
-     * @return
-     */
-    private ArrayList<Movie> parseMoviesJson(String json) {
-
-        ArrayList<Movie> movieArrayList = new ArrayList<>();
-
-        try {
-            JSONObject moviesJson = new JSONObject(json);
-            JSONArray moviesArray = moviesJson.getJSONArray("results");
-            for (int i=0; i<moviesArray.length(); i++) {
-                Movie movie = new Movie(moviesArray.getJSONObject(i));
-                movieArrayList.add(movie);
-            }
-
-        } catch (JSONException e) {
-            Log.e("MoviesFragment", "Error while parsing Movies JSON");
-            e.printStackTrace();
-        }
-
-        return movieArrayList;
-
-    }
 
     /*
      * TODO: Add a broadcast receiver to listen to the internet connection.

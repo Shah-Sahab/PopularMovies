@@ -123,10 +123,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Trailer>> loader, ArrayList<Trailer> data) {
+        dismissProgressDialog();
+        if (data == null) {
+            return;
+        }
         Log.d("DetailFragment", data.toString());
         trailerAdapter.setTrailerArrayList(data);
         trailerAdapter.notifyDataSetChanged();
-        dismissProgressDialog();
     }
 
     @Override
@@ -153,6 +156,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
+                movie.setFavorite(isChecked);
                 Uri uri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, movie.getContentValues());
                 Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
             } else {

@@ -195,4 +195,11 @@ public class Movie implements Parcelable {
         isFavorite = favorite;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Movie && ((Movie) o).getId() == this.id) {
+            return true;
+        }
+        return false;
+    }
 }

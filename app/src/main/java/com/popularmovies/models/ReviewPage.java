@@ -102,7 +102,7 @@ public class ReviewPage {
             }
             reviewPage.setTotalPages(jsonObject.getInt(JSON_TOTAL_PAGES));
             reviewPage.setTotalResults(jsonObject.getInt(JSON_TOTAL_RESULTS));
-            Log.e("ReviewPage", reviewPage.toString());
+//            Log.e("ReviewPage", reviewPage.toString());
             return reviewPage;
         } catch (JSONException e) {
             e.printStackTrace();
