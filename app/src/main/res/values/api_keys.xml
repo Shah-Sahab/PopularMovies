@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_key" translatable="false">Your_Api_Key</string>
-    <string name="youtube_api_key" translatable="false">Your_Api_Key</string>
+    <string name="api_key" translatable="false">1e323398975f6d6ba104a6becce02c45</string>
+    <string name="youtube_api_key" translatable="false">AIzaSyB76jza4f0OsseakTA4P0thoLCEmsMr7is</string>
 </resources>

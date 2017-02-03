@@ -1,6 +1,7 @@
 package com.popularmovies.fragments;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,12 +18,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.popularmovies.R;
 import com.popularmovies.activities.TrailerPlayerActivity;
 import com.popularmovies.adapters.TrailerAdapter;
+import com.popularmovies.data.MovieContract;
 import com.popularmovies.extras.DividerItemDecoration;
 import com.popularmovies.extras.LRUCacheImpl;
 import com.popularmovies.extras.Util;
@@ -75,6 +80,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         ((TextView)rootView.findViewById(R.id.title_text)).setText(movie.getTitle());
         ((TextView)rootView.findViewById(R.id.overview_text)).setText(movie.getPlotSynopsis());
         ((TextView)rootView.findViewById(R.id.release_date_text)).setText(movie.getReleaseDate());
+        ((CheckBox)rootView.findViewById(R.id.checkBox_fav)).setOnCheckedChangeListener(onCheckedChangeListener);
 
         initializeRecycler(rootView);
 
@@ -133,6 +139,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         intent.putExtra(TrailerPlayerActivity.KEY, trailer);
         startActivity(intent);
     }
+
+    CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                Uri uri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, movie.getContentValues());
+                Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                int rowsDeleted = getContext().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI, MovieContract.MovieEntry._ID + " == ?", new String[] {String.valueOf(movie.getId())});
+                if (rowsDeleted > 0) {
+                    Toast.makeText(getContext(), "Not Favorite anymore", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    };
 
     // --------------------------------------------------------------------------------------------
     // Release 2 work

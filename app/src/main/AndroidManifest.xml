@@ -40,7 +40,7 @@
         <provider
             android:name=".data.MovieProvider"
             android:authorities="movie"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false"
             android:syncable="true">
         </provider>
