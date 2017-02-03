@@ -80,6 +80,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         ((TextView)rootView.findViewById(R.id.title_text)).setText(movie.getTitle());
         ((TextView)rootView.findViewById(R.id.overview_text)).setText(movie.getPlotSynopsis());
         ((TextView)rootView.findViewById(R.id.release_date_text)).setText(movie.getReleaseDate());
+        ((CheckBox)rootView.findViewById(R.id.checkBox_fav)).setChecked(movie.isFavorite());
+
+        // Always set this later, otherwise this will be called while setting the above check
         ((CheckBox)rootView.findViewById(R.id.checkBox_fav)).setOnCheckedChangeListener(onCheckedChangeListener);
 
         initializeRecycler(rootView);
@@ -95,6 +98,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         trailerAdapter = new TrailerAdapter(getContext(), new ArrayList<Trailer>());
         trailerRecycler.setAdapter(trailerAdapter);
         trailerAdapter.setTrailerClickListener(this);
+    }
+
+    public void setFavoriteMovieCheck() {
+        if (movie.isFavorite()) {
+
+        }
     }
 
     @Override
