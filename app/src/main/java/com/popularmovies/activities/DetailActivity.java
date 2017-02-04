@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity implements ReviewsFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        if (savedInstanceState == null) {
+//        if (savedInstanceState == null) {
             CustomFragmentPagerAdapter customFragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
             viewPager = (ViewPager) findViewById(R.id.pager);
             viewPager.setAdapter(customFragmentPagerAdapter);
@@ -31,7 +31,7 @@ public class DetailActivity extends AppCompatActivity implements ReviewsFragment
             // Bind the tabs to the ViewPager
             PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
             tabs.setViewPager(viewPager);
-        }
+//        }
 
         setupActionBar();
 

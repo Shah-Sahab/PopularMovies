@@ -50,6 +50,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
      * fragment (e.g. upon screen orientation changes).
      */
     public ReviewsFragment() {
+        setRetainInstance(true);
     }
 
     @SuppressWarnings("unused")

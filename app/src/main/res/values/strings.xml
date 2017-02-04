@@ -14,14 +14,18 @@
     <string name="player_error">Error initializing YouTube player</string>
     <string name="reviews_not_available">There are no reviews available for this movie</string>
 
+    <string name="favorite_movie_type">favorite</string>
+
     <string-array name="pref_sort_list_entries">
         <item>Popular Movies</item>
         <item>Top Rated Movies</item>
+        <item>Favorite Movies</item>
     </string-array>
 
     <string-array name="pref_sort_list_values">
         <item>popular</item>
         <item>top_rated</item>
+        <item>favorite</item>
     </string-array>
 
     <!-- Sync Adapter -->

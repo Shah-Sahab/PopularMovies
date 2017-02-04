@@ -37,6 +37,7 @@ public class TrailerDialogFragment extends DialogFragment implements YouTubePlay
 
     public TrailerDialogFragment() {
         // Empty Constructor
+        setRetainInstance(true);
     }
 
     @Nullable

@@ -26,8 +26,6 @@ import java.net.URL;
  */
 public class Util {
 
-    private static final String LOG_TAG = Util.class.getName();
-
     /**
      * Lazy loading/Caching
      * @return a Bitmap
@@ -35,63 +33,6 @@ public class Util {
     public static void fetchBitmap(Movie movie, ImageView imageView) {
         FetchMoviePoster fetchMoviePoster = new FetchMoviePoster(imageView);
         fetchMoviePoster.execute(movie);
-    }
-
-    public static class FetchMoviePoster extends AsyncTask<Movie, Void, Bitmap> {
-
-        ImageView imageView;
-
-        public FetchMoviePoster(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Movie... movies) {
-            String urlStr = getPosterUrl(movies[0].getImageUrl());
-            Bitmap bitmap = fetchImageFromUrl(urlStr);
-            LRUCacheImpl.getInstance().put(movies[0].getId(), bitmap);
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (imageView != null) {
-                this.imageView.setImageBitmap(bitmap);
-            }
-        }
-    }
-
-    /**
-     * Fetch an image from url
-     * @param urlStr
-     * @return Bitmap
-     */
-    private static Bitmap fetchImageFromUrl(String urlStr) {
-
-        HttpURLConnection urlConnection = null;
-        Bitmap bitmap = null;
-        try {
-
-            URL url = new URL(urlStr);
-            Log.d(LOG_TAG, "URL= " + urlStr);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            InputStream inputStream = urlConnection.getInputStream();
-            bitmap = BitmapFactory.decodeStream(inputStream);
-
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Error: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return bitmap;
     }
 
     public static String getPosterUrl(String posterRelativePath) {

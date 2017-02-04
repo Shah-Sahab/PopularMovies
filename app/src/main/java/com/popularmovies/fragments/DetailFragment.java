@@ -57,6 +57,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     ProgressDialog progressDialog;
 
     public DetailFragment() {
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 

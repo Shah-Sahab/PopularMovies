@@ -165,13 +165,52 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         @Override
         public ArrayList<Movie> loadInBackground() {
             ArrayList<Movie> movieArrayList = new ArrayList<>();
-            movieArrayList.addAll(fetchMoviesFromServer());
-
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             String sortBy = preferences.getString(getContext().getString(R.string.pref_sort_key), getContext().getString(R.string.pref_sort_default_value));
 
+            // If the sorting criteria is Favorite movies
+            if (sortBy.equalsIgnoreCase(getContext().getString(R.string.favorite_movie_type))) {
+
+                String selectionClause = MovieContract.MovieEntry.COLUMN_FAVOURITE + " = ?";
+                String[] selectionArgs = { "1" };
+
+                Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null,
+                                selectionClause, selectionArgs, null);
+
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        Movie movie = new Movie();
+                        movie.setId(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry._ID)));
+                        movie.setAverageVote(String.valueOf(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVG))));
+                        movie.setFavorite(cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_FAVOURITE)) != 0);
+                        movie.setPlotSynopsis(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_SYNOPSIS)));
+                        movie.setTitle(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
+                        movie.setImageUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_PATH)));
+                        movie.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
+                        movie.setUserRating(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY)));
+                        movie.setMovieType(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_TYPE)));
+                        movieArrayList.add(movie);
+
+                    }
+                    cursor.close();
+                }
+
+                return movieArrayList;
+            }
+
+            // If sort by is either Top Rated or Popular Movies
+            return fetchAllMovies(movieArrayList, sortBy);
+        }
+
+        /**
+         *
+         * @param movieArrayList
+         * @param sortBy
+         */
+        private ArrayList<Movie> fetchAllMovies(ArrayList<Movie> movieArrayList, String sortBy) {
+            movieArrayList.addAll(fetchMoviesFromServer());
+
             Cursor cursor = getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, MovieContract.MovieEntry.COLUMN_TYPE + " == ?", new String[] { sortBy }, null);
-//            Log.e(LOG_TAG, "Cursor Count: " + cursor.getCount());
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     Movie movie = new Movie();
@@ -190,11 +229,9 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     }
                     movieArrayList.add(movie);
 
-//                    Log.e(LOG_TAG, "Cursor Movie Fav : " + movie.isFavorite());
                 }
                 cursor.close();
             }
-
             return movieArrayList;
         }
 
